@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>বদলগাছীর রানাঘর - হোমমেড ফুড</title>
+  <style>
+    :root{--brand:#0ea5a4;--accent:#f59e0b;--muted:#6b7280}
+    *{box-sizing:border-box}
+    body{font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,'Noto Sans Bengali',"Helvetica Neue",Arial; margin:0; background:#f3f4f6; color:#111}
+    header{background:linear-gradient(90deg, rgba(14,165,164,0.95), rgba(21,128,61,0.95)); color:white; padding:1.2rem}
+    .container{max-width:1100px;margin:1rem auto;padding:1rem}
+    .brand{display:flex;gap:1rem;align-items:center}
+    .brand h1{margin:0;font-size:1.4rem}
+    .hero{background:#fff;border-radius:12px;padding:1rem;margin-top:1rem}
+
+    /* slideshow */
+    .slideshow{position:relative;overflow:hidden;border-radius:10px;height:260px}
+    .slideshow img{width:100%;height:260px;object-fit:cover;display:none}
+    .slideshow img.active{display:block;animation:fade 1s ease-in-out}
+    @keyframes fade{from{opacity:0.4}to{opacity:1}}
+
+    .menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin-top:1rem}
+
+    .card{background:#fff;border-radius:10px;padding:0.8rem;box-shadow:0 6px 18px rgba(15,23,42,0.06);display:flex;flex-direction:column}
+    .card img{width:100%;height:160px;object-fit:cover;border-radius:8px}
+    .card h3{margin:0.5rem 0 0.25rem}
+    .meta{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:0.95rem}
+    .price{font-weight:700;color:var(--brand)}
+    .btn{background:var(--brand);color:#fff;padding:0.5rem 0.75rem;border-radius:8px;border:none;cursor:pointer}
+    .btn.secondary{background:#fff;color:var(--brand);border:1px solid #e6f6f6}
+    .rating{display:inline-flex;gap:4px;align-items:center}
+    .rating .star{color:var(--accent);font-weight:700}
+
+    .sidebar{background:#fff;border-radius:10px;padding:1rem;position:sticky;top:1rem}
+    .flex{display:flex;gap:1rem}
+    .column{flex:1}
+
+    form label{display:block;margin-top:0.5rem;font-size:0.9rem}
+    input,textarea,select{width:100%;padding:0.5rem;border:1px solid #e5e7eb;border-radius:6px;margin-top:0.25rem}
+    footer{margin:2rem 0;text-align:center;color:var(--muted)}
+
+    @media (max-width:900px){.flex{flex-direction:column}.sidebar{position:static}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container brand">
+      <div>
+        <h1>বদলগাছীর রানাঘর</h1>
+        <div style="font-size:0.95rem;opacity:0.95">ঘরে তৈরি স্বাস্থ্যসম্মত হোমমেড খাবার — অর্ডার দিন, ঘরে পৌঁছে দেওয়া হবে</div>
+      </div>
+      <div style="margin-left:auto;text-align:right">
+        <div style="font-weight:700">অর্ডার করুন: <span style="background:#fff;color:#000;padding:4px 8px;border-radius:6px">01775-416678 (WhatsApp)</span></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="slideshow" id="slideshow">
+        <img src="/mnt/data/1000072542.jpg" alt="চিকেন বার্গার" class="active" />
+        <img src="/mnt/data/1000072543.jpg" alt="চিকেন ফ্রাই" />
+        <img src="/mnt/data/1000072544.jpg" alt="পণ্য ৩" />
+        <img src="/mnt/data/1000072545.jpg" alt="পণ্য ৪" />
+        <img src="/mnt/data/1000072546.jpg" alt="পণ্য ৫" />
+        <img src="/mnt/data/1000072547.jpg" alt="পণ্য ৬" />
+        <img src="/mnt/data/1000072548.jpg" alt="পণ্য ৭" />
+        <img src="/mnt/data/1000072549.jpg" alt="পণ্য ৮" />
+      </div>
+      <div style="margin-top:0.8rem">
+        <h2 style="margin:0">স্পেশাল হোমমেড মেনু</h2>
+        <p style="margin:0.25rem 0;color:var(--muted)">চিকেন বার্গার, স্পাইসি চিকেন, চিকেন ফ্রাই, চিকেন কাবাব ও আরো অনেক কিছু। কমপক্ষে ১ দিন আগে অর্ডার করুন।</p>
+        <div style="margin-top:0.5rem">
+          <span class="btn" onclick="scrollToMenu()">মেনু দেখুন</span>
+          <a class="btn secondary" href="#reviews" style="margin-left:0.5rem">রিভিউ দেখুন</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="flex" style="margin-top:1rem">
+      <div class="column">
+        <h3>মেনু</h3>
+        <div id="menu" class="menu-grid"></div>
+
+        <h3 id="reviews" style="margin-top:1.25rem">কাস্টমার রিভিউ</h3>
+        <div id="reviews-list"></div>
+
+        <div style="background:#fff;padding:1rem;border-radius:8px;margin-top:1rem">
+          <h4>রিভিউ লিখুন</h4>
+          <form id="review-form">
+            <label>আপনার নাম <input id="reviewer" placeholder="আপনার নাম" required></label>
+            <label>রেটিং
+              <select id="rating" required>
+                <option value="5">5 — চমৎকার</option>
+                <option value="4">4 — ভাল</option>
+                <option value="3">3 — ঠিক আছে</option>
+                <option value="2">2 — খারাপ</option>
+                <option value="1">1 — খুব খারাপ</option>
+              </select>
+            </label>
+            <label>মতামত<textarea id="review-text" rows="3" placeholder="আপনার মন্তব্য লিখুন"></textarea></label>
+            <div style="margin-top:0.5rem"><button class="btn" type="submit">রিভিউ সাবমিট করুন</button></div>
+          </form>
+        </div>
+
+      </div>
+
+      <aside class="sidebar" style="width:340px">
+        <h3>অর্ডার করুন</h3>
+        <form id="order-form">
+          <label>নাম <input id="customer-name" required></label>
+          <label>ফোন <input id="customer-phone" required placeholder="01xxxxxxxxx"></label>
+          <label>ঠিকানা <textarea id="customer-address" rows="2" required></textarea></label>
+
+          <label>প্রোডাক্ট
+            <select id="product-select"></select>
+          </label>
+          <label>পরিমাণ <input id="quantity" type="number" min="1" value="1"></label>
+
+          <div style="margin-top:0.5rem"><button class="btn" type="submit">অর্ডার প্লেস করুন</button></div>
+        </form>
+
+        <div style="margin-top:1rem">
+          <strong>গড় রেটিং:</strong> <span id="avg-rating">—</span>
+        </div>
+
+        <div style="margin-top:0.6rem;color:var(--muted);font-size:0.95rem">
+          ডেলিভারি: বদলগাছীর সব এলাকায়। অনুগ্রহ করে কমপক্ষে ১ দিন আগে অর্ডার দিন।
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      <small>© বদলগাছীর রানাঘর — হোমমেড ফুড • তৈরি করা হয়েছে HTML/CSS/JS দিয়ে • ডাটাবেজ: Google Sheets + SheetDB</small>
+    </footer>
+  </main>
+
+  <script>
+    // slideshow
+    let slideIndex=0;
+    const slides=document.querySelectorAll('#slideshow img');
+    setInterval(()=>{
+      slides[slideIndex].classList.remove('active');
+      slideIndex=(slideIndex+1)%slides.length;
+      slides[slideIndex].classList.add('active');
+    },3000);
+
+    const FALLBACK_PRODUCTS = [
+      {id:'p1',title:'চিকেন বার্গার',price:'55',image:'/mnt/data/1000072542.jpg',desc:'স্পেশাল চিকেন বার্গার'},
+      {id:'p2',title:'স্পাইসি চিকেন ফ্রাই',price:'50',image:'/mnt/data/1000072543.jpg',desc:'ঝাল মশলাদার চিকেন ফ্রাই'},
+      {id:'p3',title:'পণ্য ৩',price:'60',image:'/mnt/data/1000072544.jpg',desc:'টেস্টি পণ্য ৩'},
+      {id:'p4',title:'পণ্য ৪',price:'70',image:'/mnt/data/1000072545.jpg',desc:'টেস্টি পণ্য ৪'},
+      {id:'p5',title:'পণ্য ৫',price:'80',image:'/mnt/data/1000072546.jpg',desc:'টেস্টি পণ্য ৫'},
+      {id:'p6',title:'পণ্য ৬',price:'90',image:'/mnt/data/1000072547.jpg',desc:'টেস্টি পণ্য ৬'},
+      {id:'p7',title:'পণ্য ৭',price:'100',image:'/mnt/data/1000072548.jpg',desc:'টেস্টি পণ্য ৭'},
+      {id:'p8',title:'পণ্য ৮',price:'110',image:'/mnt/data/1000072549.jpg',desc:'টেস্টি পণ্য ৮'}
+    ];
+
+    const FALLBACK_REVIEWS = [
+      {name:'রহমত',rating:5,text:'খুবই টেস্টি!'},
+      {name:'ফারজা',rating:4,text:'সার্ভিস দ্রুত ছিল।'}
+    ];
+
+    function renderProducts(products){
+      const el=document.getElementById('menu');
+      el.innerHTML=products.map(p=>`
+        <div class="card">
+          <img src="${p.image}" alt="${p.title}">
+          <h3>${p.title}</h3>
+          <div class="meta">
+            <div class="price">৳ ${p.price}</div>
+            <div><button class="btn" onclick="addToOrder('${p.id}')">অর্ডার</button></div>
+          </div>
+          <p style="margin-top:0.5rem;color:var(--muted);font-size:0.95rem">${p.desc}</p>
+        </div>`).join('');
+      populateProductSelect(products);
+    }
+
+    function populateProductSelect(products){
+      const sel=document.getElementById('product-select');
+      sel.innerHTML=products.map(p=>`<option value="${p.id}">${p.title} — ৳ ${p.price}</option>`).join('');
+    }
+
+    function addToOrder(productId){
+      const sel=document.getElementById('product-select');
+      for(const opt of sel.options) if(opt.value===productId) opt.selected=true;
+      window.scrollTo({top:document.getElementById('order-form').offsetTop-40,behavior:'smooth'});
+    }
+
+    function renderReviews(reviews){
+      const el=document.getElementById('reviews-list');
+      el.innerHTML=reviews.map(r=>`
+        <div style="background:#fff;padding:0.75rem;border-radius:8px;margin-bottom:0.5rem">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div><strong>${r.name}</strong></div>
+            <div class="rating">${renderStars(r.rating)} <span style="margin-left:6px;color:var(--muted)">${r.rating}</span></div>
+          </div>
+          <div style="margin-top:0.5rem;color:var(--muted)">${r.text}</div>
+        </div>`).join('');
+    }
+
+    function renderStars(r){let s='';for(let i=1;i<=5;i++) s+=`<span class="star">${i<=r?'★':'☆'}</span>`;return s;}
+
+    renderProducts(FALLBACK_PRODUCTS);
+    renderReviews(FALLBACK_REVIEWS);
+
+    function scrollToMenu(){document.querySelector('#menu').scrollIntoView({behavior:'smooth'});}
+  </script>
+</body>
+</html>
